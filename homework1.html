@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>숙제</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <style>
+        .BorderStyle {
+            border-style: solid;
+            padding: 10px;
+        }
+
+        .picturecenter {
+            width: 800px;
+            margin: 100px auto;
+        }
+
+        ​
+        .info {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        ​
+        h1, h5 {
+            display: inline;
+        }
+
+        ​
+        .order {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .forminput {
+            width: 400px;
+        }
+
+        ​
+    </style>
+    <script>
+        function orderAlert() {
+            let orderName = $('#exampleInputEmail1').val();
+            let orderCount = $('#exampleFormControlSelect1').val();
+            let orderAddress = $('#exampleInputEmail2').val();
+            let orderPhone = $('#exampleInputEmail3').val();
+            if (orderName === '') {
+                alert('이름 입력해')
+            } else if (orderCount === '') {
+                alert('카운트 입력해')
+            } else if (orderAddress === '') {
+                alert('주소 입력해')
+            } else if (orderPhone === '') {
+                alert('전화번호 입력해')
+            } else if (isCellPhone(orderPhone) === false) {
+                alert('전화번호 제대로')
+            } else {
+                alert('입력 완료')
+            }
+        }
+
+        function isCellPhone(p) {
+            let regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})[-][0-9]{3,4}[-][0-9]{4}$/;
+            return regExp.test(p);
+        }
+
+        $('#exchangeratio').ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.manana.kr/exchange/rate.json',
+                data: {},
+                success: function (res) {
+                    for (i = 0; i < res.length; i++) {
+                        let Rate = res[i].rate;
+                        let exchangeUnit = res[i].name;
+                        let rateHtml = `<div>${exchangeUnit} 기준 환율은 ${Rate} 입니다</div>`
+                        $('#exchangeratio').append(rateHtml);
+                    }
+                }
+            })
+        })
+
+    </script>
+    ​
+</head>
+<body>
+<div class="picturecenter BorderStyle">
+    <div>
+        <img src="https://d1blyo8czty997.cloudfront.net/tour-photos/n/4708/1200x600/5791761964.jpg" width="750"
+             height="600">
+    </div>
+    <div class="info">
+        <h1>로마 패키지 여행</h1>
+        <h5>가격 : 3,000,000원 / 1인</h5>
+        <p>코로나 때문에 가지 못하지만 로마는 아름답습니다. 동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라만세</p>
+    </div>
+    <div>
+        <h2>주문하기</h2>
+        <div id="exchangeratio"></div>
+        <div class="form-group row">
+            <label for="exampleInputEmail1" class="col-sm-2">주문자 성함 : </label>
+            <input type="email" class="form-control forminput" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group row">
+            <label for="exampleFormControlSelect1" class="col-sm-2">수량 : </label>
+            <select class="form-control forminput" id="exampleFormControlSelect1">
+                <option selected value>수량을 입력해주세요</option>
+                <option value="1">1명</option>
+                <option value="2">2명</option>
+                <option value="3">3명</option>
+            </select>
+        </div>
+        <div class="form-group row">
+            <label for="exampleInputEmail1" class="col-sm-2">주소 : </label>
+            <input type="email" class="form-control forminput" id="exampleInputEmail2" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group row">
+            <label for="exampleInputEmail1" class="col-sm-2">전화번호 : </label>
+            <input type="email" class="form-control forminput" id="exampleInputEmail3" aria-describedby="emailHelp">
+        </div>
+    </div>
+    <div class="order">
+        <button onclick="orderAlert()" type="button" class="btn btn-outline-primary btn-lg">주문하기</button>
+    </div>
+</div>
+</body>
+</html>
